@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {deleteUser} from '../actions/actions'
+import {deleteUser, editUser} from '../actions/actions'
 
 
 class UsersListing extends React.Component {
     constructor(){
         super();
         this.deleteUser = this.deleteUser.bind(this);
+        this.editUser = this.editUser.bind(this);
     }
     render() {
         return (
@@ -17,9 +18,13 @@ class UsersListing extends React.Component {
             </ul>
         )
     }
-    deleteUser(userId) {
-        debugger;
+    deleteUser(e,userId) {
         this.props.dispatch(deleteUser({
+            userId
+        }));
+    }
+    editUser(e,userId) {
+        this.props.dispatch(editUser({
             userId
         }));
     }
@@ -34,6 +39,8 @@ class UsersListing extends React.Component {
                 <li key={index}>
                     <label>{usersList[index].fName}</label>
                     <label>{' ' + usersList[index].lName}</label>
+                    <a href="#" onClick={(e) => this.deleteUser(e,index)}> Delete </a>
+                    <a href="#" onClick={(e) => this.editUser(e,index)}> Edit </a>
                 </li>
 
             )

@@ -29,8 +29,26 @@ class AddUser extends React.Component {
         this.props.dispatch(addUser({
             newUser: this.state
         }));
+        if(this.state.userId){
+            delete this.state.userId;
+        }
+        this.setState({
+            fName: '',
+            lName: ''
+        })
     }
-
+    componentWillReceiveProps(nextProps){
+        debugger;
+        if(nextProps.editUser){
+            const key = Object.keys(nextProps.editUser);
+            let editUser = nextProps.editUser[key];
+            this.setState({
+                fName: editUser.fName,
+                lName: editUser.lName,
+                userId: key
+            })
+        }
+    }
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
@@ -50,7 +68,9 @@ class AddUser extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return {}
+    return {
+        editUser: state.editUser
+    }
 }
 const ConnectedAddUser = connect(mapStateToProps)(AddUser);
 export default ConnectedAddUser;
